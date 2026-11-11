@@ -11,7 +11,7 @@
     header.innerHTML = `
       <header class="site-header">
         <div class="nav-wrap">
-          <a class="brand" href="index.html">LAYINATUL<span>.</span></a>
+          <a class="brand" href="index.html">LAYINATUL JANIBAH<span></span></a>
           <button class="menu-toggle" aria-label="Buka navigasi" aria-expanded="false"><span></span><span></span></button>
           <nav class="main-nav" aria-label="Navigasi utama">
             ${pages.map(([label, href]) => `<a href="${href}" ${currentPage === href ? 'aria-current="page"' : ""}>${label}</a>`).join("")}
@@ -139,3 +139,21 @@
   }
   function escapeAttr(value) { return escapeHTML(value); }
 })();
+
+document.querySelectorAll("[data-about-image]").forEach(img => {
+    const placeholder = img
+        .closest(".about-photo")
+        ?.querySelector("[data-about-placeholder]");
+
+    img.addEventListener("load", () => {
+        if (placeholder) placeholder.hidden = true;
+    });
+
+    img.addEventListener("error", () => {
+        if (placeholder) placeholder.hidden = false;
+    });
+
+    if (img.complete && img.naturalWidth > 0) {
+        if (placeholder) placeholder.hidden = true;
+    }
+});
