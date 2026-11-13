@@ -573,3 +573,9 @@
         height: 350px;
     }
 }
+
+/* Fallback foto profil: placeholder menutupi frame, dan atribut hidden benar-benar menyembunyikan */
+.hero-photo-frame .profile-placeholder { position: absolute; inset: 0; }
+.profile-placeholder[hidden],
+.hero-photo-frame img[hidden],
+.about-photo img[hidden] { display: none; }

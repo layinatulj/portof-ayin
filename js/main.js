@@ -68,28 +68,27 @@
     }
   });
 
-  const profileImage = document.querySelector("[data-profile-image]");
-  const profilePlaceholder = document.querySelector("[data-profile-placeholder]");
-  if (profileImage && config.profileImage) {
-    profileImage.src = config.profileImage;
-    profileImage.hidden = false;
-    profilePlaceholder?.setAttribute("hidden", "");
-    profileImage.addEventListener("error", () => {
-      profileImage.hidden = true;
-      profilePlaceholder?.removeAttribute("hidden");
-    });
+  // Foto profil: pakai link dari config bila ada. Jika gambar gagal dimuat,
+  // tampilkan placeholder monogram (bukan gambar rusak).
+  function setupPhoto(img, placeholder, src) {
+    if (!img) return;
+    const showPhoto = () => { img.hidden = false; placeholder?.setAttribute("hidden", ""); };
+    const showPlaceholder = () => { img.hidden = true; placeholder?.removeAttribute("hidden"); };
+    img.addEventListener("load", showPhoto);
+    img.addEventListener("error", showPlaceholder);
+    if (src) img.src = src;
+    if (img.complete) (img.naturalWidth > 0 ? showPhoto : showPlaceholder)();
   }
-  const aboutImage = document.querySelector("[data-about-image]");
-  const aboutPlaceholder = document.querySelector("[data-about-placeholder]");
-  if (aboutImage && (config.aboutImage || config.profileImage)) {
-    aboutImage.src = config.aboutImage || config.profileImage;
-    aboutImage.hidden = false;
-    aboutPlaceholder?.setAttribute("hidden", "");
-    aboutImage.addEventListener("error", () => {
-      aboutImage.hidden = true;
-      aboutPlaceholder?.removeAttribute("hidden");
-    });
-  }
+  setupPhoto(
+    document.querySelector("[data-profile-image]"),
+    document.querySelector("[data-profile-placeholder]"),
+    config.profileImage
+  );
+  setupPhoto(
+    document.querySelector("[data-about-image]"),
+    document.querySelector("[data-about-placeholder]"),
+    config.aboutImage || config.profileImage
+  );
 
   const socialLinks = document.querySelector("[data-social-links]");
   if (socialLinks) {
@@ -139,21 +138,3 @@
   }
   function escapeAttr(value) { return escapeHTML(value); }
 })();
-
-document.querySelectorAll("[data-about-image]").forEach(img => {
-    const placeholder = img
-        .closest(".about-photo")
-        ?.querySelector("[data-about-placeholder]");
-
-    img.addEventListener("load", () => {
-        if (placeholder) placeholder.hidden = true;
-    });
-
-    img.addEventListener("error", () => {
-        if (placeholder) placeholder.hidden = false;
-    });
-
-    if (img.complete && img.naturalWidth > 0) {
-        if (placeholder) placeholder.hidden = true;
-    }
-});

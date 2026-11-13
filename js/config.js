@@ -11,5 +11,5 @@ window.PORTFOLIO_CONFIG = {
   cvUrl: "assets/CV-Layinatul-Janibah.pdf", // CV PDF lokal dalam folder assets.
   email: "layinatul.janibah14@gmail.com",
   linkedin: "",     // URL profil LinkedIn
-  github: ""        // URL profil GitHub
+  github: "https://github.com/layinatulj" // URL profil GitHub
 };
